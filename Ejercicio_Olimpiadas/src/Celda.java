@@ -3,6 +3,7 @@ public class Celda {
     private boolean esCarretera;
     private Vehiculo vehiculo;
     private boolean cruce;
+    private char tipoCarretera = ' '; // ' ' no es ningun tipo, 'v' es vertical, 'h' es horizontal
 
     //Celda no determina lo que es por lo que no tiene que manejarlo el constructor
 
@@ -25,13 +26,15 @@ public class Celda {
     }
 
 
-    public void set_Carretera(){
+    public void set_Carretera(char tipo){
+        this.tipoCarretera= tipo;
         this.esCarretera=true;
     }
     public boolean get_Carretera(){
         return esCarretera;
     }
 
+    public char get_TipoCarretera(){return tipoCarretera;}
 
 
     public void set_Vehiculo(Vehiculo vehiculo)
