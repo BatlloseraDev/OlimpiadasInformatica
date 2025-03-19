@@ -61,8 +61,11 @@ public class Tablero {
         /*
         * Este codigo no comprueba si esta tratando sobreescribir las carreteras y buscar nuevo punto
         * No controla al 100% de no pintar en el borde
-        * No controla que al menos haya n/2 cruces
-        * Simplemente genera carreteras aleatorias
+        * No controla que al menos haya n/2 cruces  
+        -*Trabajando en ello solución propuesta agregar norma de generación donde carretera necesita tocar en >=1 punto con otra fallo regenerar tablero funciona 6 carreteras 3 cruces error impares
+        * Simplemente genera carreteras aleatorias  
+        -*Norma de generación comprobar que el camino compuesto de " " es posible entre "v" y "meta" si no regenerar. scrip de desplazamiento "v" +1 y solo posible en " " 
+        -*Metodo de desplazamiento ineficiente optimizable formula de tanteo variable 1-3-2-1 introduce error de probabilidad posible solución impedir backtrackin a celdas ya ocupadas
         * */
 
     }
