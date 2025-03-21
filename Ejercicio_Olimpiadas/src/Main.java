@@ -36,7 +36,7 @@ public class Main {
 
         //test de generacion de tablero
         Tablero tablero= Factoria.generarTablero(opc);
-        tablero.imprimirTablero();
+        //tablero.imprimirTablero();
         System.out.println("Tablero creado vacio");
 
         opc= 0;
@@ -47,10 +47,10 @@ public class Main {
         }while (opc<=0 || opc%2!=0); //con esto ya siempre es par
 
         //test de generacion de carreteras
-        tablero.generarCarreteras2(opc);
+        tablero.generarCarreteras3(opc);
         tablero.imprimirTablero();
-        System.out.println("Tablero con carreteras sin comprobar");
-
+        System.out.println("Tablero con carreteras comprobadas");
+        //tablero.imprimirIniciosyFinales();
     }
 
 }

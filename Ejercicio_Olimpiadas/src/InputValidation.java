@@ -20,7 +20,7 @@ public class InputValidation {
     }
 
 
-    public static int validateIntInput(String input) {
+    public static Integer validateIntInput(String input) {
 
         Integer valueToReturn;
         try {
@@ -28,7 +28,7 @@ public class InputValidation {
         } catch (NumberFormatException e) {
             valueToReturn = null;
         }
-        return valueToReturn;
+       return valueToReturn;
     }
 
 }
