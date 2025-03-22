@@ -50,7 +50,13 @@ public class Main {
         tablero.generarCarreteras3(opc);
         tablero.imprimirTablero();
         System.out.println("Tablero con carreteras comprobadas");
-        //tablero.imprimirIniciosyFinales();
+        tablero.imprimirIniciosyFinales();
+        System.out.println("Puntos sin limpiar");
+        tablero.limpiarPuntosNoIniciales();
+        tablero.imprimirIniciosyFinales();
+        System.out.println("Puntos limpios");
+
+
     }
 
 }

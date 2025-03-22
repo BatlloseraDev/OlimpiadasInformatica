@@ -17,8 +17,8 @@ public class Celda {
 
     //Getters And Setters
 
-    public  void set_Cruce(){
-        this.cruce = true;
+    public  void set_Cruce(boolean cruce){
+        this.cruce = cruce;
     }
 
     public boolean get_Cruce(){
@@ -28,7 +28,7 @@ public class Celda {
 
     public void set_Carretera(char tipo){
         this.tipoCarretera= tipo;
-        this.esCarretera=true;
+        this.esCarretera= tipo != ' ';
     }
     public boolean get_Carretera(){
         return esCarretera;
