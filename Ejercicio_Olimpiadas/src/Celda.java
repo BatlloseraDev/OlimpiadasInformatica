@@ -1,5 +1,6 @@
 public class Celda {
 
+    private boolean esDestino;
     private boolean esCarretera;
     private Vehiculo vehiculo;
     private boolean cruce;
@@ -11,6 +12,7 @@ public class Celda {
         this.esCarretera=false;
         this.vehiculo= null;
         this.cruce = false;
+        this.esDestino= false;
     }
 
 
@@ -47,14 +49,21 @@ public class Celda {
         return vehiculo;
     }
 
+    public void set_EsDestino(boolean esDestino){
+        this.esDestino= esDestino;
+    }
 
+    public boolean get_EsDestino(){
+        return esDestino;
+    }
 
 
     //Return de informacion formateada como cadena de texto
     @Override
     public String toString(){
         String cadena;
-        if(vehiculo!=null) cadena= "V";
+        if(vehiculo!=null && esDestino) cadena= "["+vehiculo+"]";
+        else if(vehiculo!=null) cadena= ""+vehiculo;
         else if(cruce) cadena= "X";
         else if(esCarretera) cadena= "#";
         else cadena = " "; //si no es vacio.

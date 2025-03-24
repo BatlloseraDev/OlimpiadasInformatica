@@ -28,6 +28,7 @@ public class Main {
     public static void game(){
 
         int opc = 0;
+        int n_carreteras;
 
         do {
             opc = InputValidation.writeIntInput("Introduce el tamaño del tablero: \n(1).Pequeño [20x20] \n(2).Mediano [30x30] \n(3).Grande [40x40] ","Por favor introduce un numero entero" );
@@ -39,23 +40,28 @@ public class Main {
         //tablero.imprimirTablero();
         System.out.println("Tablero creado vacio");
 
-        opc= 0;
-
         do {
             opc= InputValidation.writeIntInput("Introducce un numero que sea par y positivo para el numero de carreteras: ","Por favor introduce un numero");
 
         }while (opc<=0 || opc%2!=0); //con esto ya siempre es par
+        n_carreteras= opc;//una vez que genero una correcta lo guardo
+
 
         //test de generacion de carreteras
-        tablero.generarCarreteras3(opc);
+        tablero.generarCarreteras(n_carreteras);
         tablero.imprimirTablero();
         System.out.println("Tablero con carreteras comprobadas");
         tablero.imprimirIniciosyFinales();
-        System.out.println("Puntos sin limpiar");
-        tablero.limpiarPuntosNoIniciales();
-        tablero.imprimirIniciosyFinales();
-        System.out.println("Puntos limpios");
 
+        //pedir vehiculos
+        do{
+            opc= InputValidation.writeIntInput("Introduce un numero de vehiculos a simular, no puede ser mayor al numero de carreteras: ","Por favor introduce un numero");
+        }while(opc<=0 || opc>n_carreteras);
+
+        //Generar vehiculos en el tablero
+        Factoria.generarVehiculosEnTablero(tablero,opc);
+        tablero.indexarInicioVehiculos();
+        tablero.imprimirTablero();
 
     }
 
