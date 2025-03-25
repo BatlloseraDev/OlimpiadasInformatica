@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.List;
+
 public class Factoria {
 
     public static Tablero generarTablero(int n){
@@ -27,6 +29,12 @@ public class Factoria {
     {
         ArrayList<ArrayList<Point>> carreterasInicios= new ArrayList<>(tablero.getCarreteras());
         ArrayList<ArrayList<Point>> carreterasFinales= new ArrayList<>(tablero.getCarreteras());
+        ArrayList<Point> puntosFinales = new ArrayList<>();
+        for(ArrayList<Point> carretera: carreterasInicios){
+            puntosFinales.add(carretera.getFirst());
+            puntosFinales.add(carretera.getLast());
+        }
+
 
 
         for(int i=0; i<n_vehiculos;i++){
@@ -39,39 +47,27 @@ public class Factoria {
             }while(celdaAux.get_EsDestino() || celdaAux.get_Cruce()); //mientras que sea disitinto de destino
             carreterasInicios.remove(carreteraRandom);
 
-            int carreteraRandom2;
-            Point puntoFinalAux1, puntoFinalAux2;
-            Celda celda1, celda2;
-            Point puntoFinal = null;
-            do {
-                carreteraRandom2= new Random().nextInt(carreterasFinales.size());
-                puntoFinalAux1= carreterasFinales.get(carreteraRandom2).getFirst();
-                puntoFinalAux2= carreterasFinales.get(carreteraRandom2).getLast();
+            int puntoRandom;
+            Point puntoFinal;
 
-                celda1 = tablero.get_Celda(puntoFinalAux1.x,puntoFinalAux1.y);
-                celda2 = tablero.get_Celda(puntoFinalAux2.x,puntoFinalAux2.y);
-
-                if(celda1.get_EsDestino() && celda2.get_EsDestino()){
-                    carreterasFinales.remove(carreteraRandom2);
-                }
-                else if(!celda1.get_EsDestino() || !celda2.get_EsDestino()){
-                    if(!celda1.get_EsDestino()){
-                        puntoFinal = puntoFinalAux1;
-                    }
-                    else{
-                        puntoFinal = puntoFinalAux2;
-                    }
-                }
-            }while (puntoFinal==null);
-
+            puntoRandom= new Random().nextInt(puntosFinales.size());
+            puntoFinal= puntosFinales.get(puntoRandom);
+            puntosFinales.remove(puntoRandom);
 
             tablero.addVehiculoArray(generarVehiculo(i+1,puntoInicial,puntoFinal));
-         /*   Point puntoInicial = puntos.get(new  Random().nextInt(puntos.size()));
-            puntos.remove(puntoInicial);
-            Point puntoFinal = puntos.get(new  Random().nextInt(puntos.size()));
-            puntos.remove(puntoFinal);
-            tablero.addVehiculoArray(generarVehiculo(i+1,puntoInicial,puntoFinal));*/
+
         }
 
     }
+
+    public static void generarCamino(Tablero tablero, Vehiculo vehiculo){
+
+        Point inicio = vehiculo.get_Inicio();
+        Point destino = vehiculo.get_Destino();
+        List<Point> camino = PathFinder.encontrarElCaminoMasCorto(tablero.get_Tablero(),inicio.x,inicio.y,destino.x,destino.y);
+
+        vehiculo.set_Camino(camino);
+    }
+
+
 }

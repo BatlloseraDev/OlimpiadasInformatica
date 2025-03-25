@@ -27,17 +27,16 @@ public class Main {
 
     public static void game(){
 
-        int opc = 0;
+        int opc;
         int n_carreteras;
+        boolean ejecutar=true;
 
         do {
             opc = InputValidation.writeIntInput("Introduce el tamaño del tablero: \n(1).Pequeño [20x20] \n(2).Mediano [30x30] \n(3).Grande [40x40] ","Por favor introduce un numero entero" );
         } while(opc < 1 || opc > 3);
         opc = (opc+1)*10; //me ahorro el crear el switch o una cadena de if
 
-        //test de generacion de tablero
         Tablero tablero= Factoria.generarTablero(opc);
-        //tablero.imprimirTablero();
         System.out.println("Tablero creado vacio");
 
         do {
@@ -46,22 +45,53 @@ public class Main {
         }while (opc<=0 || opc%2!=0); //con esto ya siempre es par
         n_carreteras= opc;//una vez que genero una correcta lo guardo
 
-
         //test de generacion de carreteras
         tablero.generarCarreteras(n_carreteras);
-        tablero.imprimirTablero();
-        System.out.println("Tablero con carreteras comprobadas");
+
         //tablero.imprimirIniciosyFinales();
-        tablero.imprimirCarreteras();
+        //tablero.imprimirCarreteras();
         //pedir vehiculos
         do{
             opc= InputValidation.writeIntInput("Introduce un numero de vehiculos a simular, no puede ser mayor al numero de carreteras: ","Por favor introduce un numero");
         }while(opc<=0 || opc>n_carreteras);
 
-        //Generar vehiculos en el tablero
-        Factoria.generarVehiculosEnTablero(tablero,opc);
-        tablero.inicializarVehiculos();
         tablero.imprimirTablero();
+        System.out.println("Tablero con carreteras comprobadas");
+        Factoria.generarVehiculosEnTablero(tablero,opc);
+
+        while (ejecutar){
+
+            int inGame = InputValidation.writeIntInput("Selecciona lo que desees realizar:\n" +
+                    "(1).Iniciar la simulación\n" +
+                    "(2).Pausar la simulación\n" +
+                    "(3).Reinicar la simulación\n" +
+                    "(4).Salir","Por favor introduce un numero entero");
+
+            switch (inGame){
+                case 1://comienza la simulacion
+                    tablero.inicializarVehiculos();
+                    tablero.imprimirTablero();
+
+                    break;
+                case 2: //pausar la simulacion
+                    tablero.imprimirTablero();
+                    break;
+                case 3://Reiniciar la simulacion
+                    //inicializa los vehiculos.
+                    break;
+                case 4:
+                    ejecutar= false;
+                    break;
+                default:
+                    System.out.println("Opción no válida");
+            }
+
+        }
+
+
+
+        tablero.imprimirTablero();
+        //tablero.imprimirVehiculos();
 
 
     }

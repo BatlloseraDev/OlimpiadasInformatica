@@ -288,9 +288,18 @@ public class Tablero {
         for (Vehiculo v : vehiculos)
         {
             Point inicio = v.get_Inicio();
+            Point actual= v.get_Posicion();
             Point destino = v.get_Destino();
+
+            if(actual!=inicio){
+                quitarVehiculo(actual.x,actual.y);
+                v.set_Posicion(inicio);
+            }
+
             agregarVehiculo(inicio.x,inicio.y,v);
             agregarDestino(destino.x,destino.y,v);
+
+            Factoria.generarCamino(this,v);
         }
     }
 
@@ -344,5 +353,18 @@ public class Tablero {
     public Celda get_Celda(int fil, int col)
     {
         return matrixTablero[fil][col];
+    }
+
+    public int get_TamanioTablero(){
+       return tamanioTablero;
+    }
+
+    public Celda[][] get_Tablero(){
+        return matrixTablero;
+    }
+    public void imprimirVehiculos(){
+        for(Vehiculo v: vehiculos){
+            System.out.println("Vehiculo "+v+" posInicial: "+v.get_Inicio().x+","+v.get_Inicio().y+" posFinal: "+v.get_Destino().x+","+v.get_Destino().y);
+        }
     }
 }

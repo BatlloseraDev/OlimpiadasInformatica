@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Vehiculo {
     private int id;
@@ -6,6 +8,8 @@ public class Vehiculo {
     private Point posicion;
     private Point destino;
     private Point inicio;
+    private ArrayList<Point> camino;
+
 
     public Vehiculo(int id, Velocidades velocidad, Point inicio, Point destino){
         this.id=id;
@@ -13,6 +17,7 @@ public class Vehiculo {
         this.posicion= inicio;
         this.destino=destino;
         this.inicio= inicio;
+        this.camino= new ArrayList<>();
     }
 
 
@@ -33,7 +38,15 @@ public class Vehiculo {
     public Point get_Destino(){
         return destino;
     }
+
+    public void set_Posicion(Point posicion) {
+        this.posicion=posicion;
+    }
     //tendre que crear una clase de mover vehiculo.
 
+
+    public void set_Camino(List<Point> camino){
+        this.camino= new ArrayList<>(camino);
+    }
     //cada vehiculo evaluara si puede moverse
 }
