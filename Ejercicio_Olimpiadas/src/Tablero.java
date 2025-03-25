@@ -7,7 +7,12 @@ public class Tablero {
     private Celda[][] matrixTablero;
     private int tamanioTablero= 0;
     private Random rand ;
-    private  ArrayList<Point> iniciosYFinalesCarreteras=  new ArrayList<>();
+    private  ArrayList<Point> iniciosYFinalesCarreteras=  new ArrayList<>(); //en vez de guardar los puntos
+    //Un arrayList de arralistPoint
+
+    private ArrayList<ArrayList<Point>> carreteras = new ArrayList<>(); //guarda los puntos de las carreteras
+
+
     private ArrayList<Vehiculo> vehiculos = new ArrayList<>(); //guarda los vehiculos que tiene
 
    //Deberia de crear un ArryList de inicios y finales aqui
@@ -27,7 +32,6 @@ public class Tablero {
         }
     }
 
-    //Metodo 3 Refactorizado
 
     public void generarCarreteras(int numCarreteras) {
         int numVerticales = numCarreteras / 2;
@@ -69,7 +73,12 @@ public class Tablero {
         int contadorPuntos= 0;
         int maxPuntos=puntosCarreteraBase.size();
 
-        if( n_carretera>=max_carreteras) noConseguido= false;
+        if( n_carretera>=max_carreteras){
+            noConseguido= false;
+        }
+        else {
+            carreteras.add(new ArrayList<>());
+        }
         while(contadorPuntos<maxPuntos && noConseguido && n_carretera<max_carreteras){
 
             puntoBase = puntosCarreteraBase.get(indicePunto);
@@ -82,12 +91,22 @@ public class Tablero {
 
             if(!comprobarAdyacentesYPosicion(inicio,fin,fijo,tipoCarretera,esVertical)){ //si es posible plantar llamo a la siguiente
                 //generar puntos
+
                 for(int variable = inicio; variable <= fin; variable++){
                     Point nuevoPunto = esVertical? new Point(variable,fijo) : new Point(fijo,variable);
                     nuevaCarretera.add(nuevoPunto);
-                   if(esVertical)indexacionSimple( tipoCarretera, variable, fijo);
-                   else indexacionSimple( tipoCarretera, fijo, variable);
+                   if(esVertical){
+                       indexacionSimple( tipoCarretera, variable, fijo);
+                       carreteras.get(n_carretera).add(new Point(variable,fijo));
+                   }
+                   else {
+                       indexacionSimple( tipoCarretera, fijo, variable);
+                       carreteras.get(n_carretera).add(new Point(fijo,variable));
+                   }
                 }
+
+
+
                 //los indexo y si no lo consigo los desindexo
                 noConseguido  = generarCarreterasRecursivamente(nuevaCarretera,iniciosYFinalesCarreteras,!esVertical, n_carretera+1,max_carreteras);
 
@@ -98,6 +117,7 @@ public class Tablero {
                         } else {
                             desindexacion( tipoCarretera, fijo, variable);
                         }
+                        carreteras.remove(n_carretera);
                     }
                 }
 
@@ -168,7 +188,7 @@ public class Tablero {
         return valor;
     }
 
-    public void limpiarPuntosNoIniciales(){
+   /* public void limpiarPuntosNoIniciales(){
 
         int sizePuntos = iniciosYFinalesCarreteras.size();
 
@@ -192,9 +212,9 @@ public class Tablero {
         //si tiene 2 es un giro
         //si tiene 3 es un cruce
 
-    }//despues de la generacion compruebo cada punto si ese punto es un giro o un cruce considero que no es un destino ni de inicio ni de final
+    }//despues de la generacion compruebo cada punto si ese punto es un giro o un cruce considero que no es un destino ni de inicio ni de final*/
 
-    private int mirarAdyacentes(int fil, int col){
+ /*   private int mirarAdyacentes(int fil, int col){
 
         int[][] direcciones = {{-1,0},{1,0},{0,-1}, {0,1}};
         int nAdyacentes=0;
@@ -208,9 +228,10 @@ public class Tablero {
 
         return nAdyacentes;
     }
+*/
 
 
-
+/*
     public void imprimirIniciosyFinales(){
         for(int i = 0; i<iniciosYFinalesCarreteras.size();i++){
             int x= iniciosYFinalesCarreteras.get(i).x;
@@ -220,6 +241,7 @@ public class Tablero {
         }
 
     }
+*/
 
 
     public void imprimirTablero(){
@@ -261,7 +283,7 @@ public class Tablero {
         vehiculos.add(v);
     }
 
-    public void indexarInicioVehiculos()
+    public void inicializarVehiculos()
     {
         for (Vehiculo v : vehiculos)
         {
@@ -270,13 +292,12 @@ public class Tablero {
             agregarVehiculo(inicio.x,inicio.y,v);
             agregarDestino(destino.x,destino.y,v);
         }
-
     }
 
 
     private void agregarDestino(int fil, int col,Vehiculo vehiculo){
         if(fil>=0 && fil<tamanioTablero && col>=0 && col<tamanioTablero){
-            matrixTablero[fil][col].set_Vehiculo(vehiculo);
+            matrixTablero[fil][col].setId_Destino(vehiculo);
             matrixTablero[fil][col].set_EsDestino(true);
         }
     }
@@ -304,5 +325,24 @@ public class Tablero {
         if(fil>=0 && fil<tamanioTablero && col>=0 && col<tamanioTablero){
             if(matrixTablero[fil][col].get_Vehiculo()!=null) matrixTablero[fil][col].set_Vehiculo(null);
         }
+    }
+
+    public void imprimirCarreteras(){
+
+        for(ArrayList<Point> carretera: carreteras){
+            System.out.print(""+carreteras.indexOf(carretera));
+            for(Point punto: carretera){
+                System.out.print("("+punto.x+","+punto.y+")");
+            }
+            System.out.println();
+        }
+    }
+    public ArrayList<ArrayList<Point>> getCarreteras(){
+        return carreteras;
+    }
+
+    public Celda get_Celda(int fil, int col)
+    {
+        return matrixTablero[fil][col];
     }
 }

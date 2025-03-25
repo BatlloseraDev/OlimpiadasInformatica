@@ -51,8 +51,8 @@ public class Main {
         tablero.generarCarreteras(n_carreteras);
         tablero.imprimirTablero();
         System.out.println("Tablero con carreteras comprobadas");
-        tablero.imprimirIniciosyFinales();
-
+        //tablero.imprimirIniciosyFinales();
+        tablero.imprimirCarreteras();
         //pedir vehiculos
         do{
             opc= InputValidation.writeIntInput("Introduce un numero de vehiculos a simular, no puede ser mayor al numero de carreteras: ","Por favor introduce un numero");
@@ -60,8 +60,9 @@ public class Main {
 
         //Generar vehiculos en el tablero
         Factoria.generarVehiculosEnTablero(tablero,opc);
-        tablero.indexarInicioVehiculos();
+        tablero.inicializarVehiculos();
         tablero.imprimirTablero();
+
 
     }
 

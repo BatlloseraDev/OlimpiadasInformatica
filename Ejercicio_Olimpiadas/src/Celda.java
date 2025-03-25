@@ -1,6 +1,7 @@
 public class Celda {
 
     private boolean esDestino;
+    private Vehiculo id_Destino;
     private boolean esCarretera;
     private Vehiculo vehiculo;
     private boolean cruce;
@@ -44,6 +45,9 @@ public class Celda {
         this.vehiculo= vehiculo;
     }
 
+    public void setId_Destino(Vehiculo vehiculo){
+        this.id_Destino= vehiculo;
+    }
     public Vehiculo get_Vehiculo()
     {
         return vehiculo;
@@ -62,7 +66,7 @@ public class Celda {
     @Override
     public String toString(){
         String cadena;
-        if(vehiculo!=null && esDestino) cadena= "["+vehiculo+"]";
+        if(esDestino) cadena= "["+id_Destino+"]";
         else if(vehiculo!=null) cadena= ""+vehiculo;
         else if(cruce) cadena= "X";
         else if(esCarretera) cadena= "#";
