@@ -77,7 +77,7 @@ public class Main {
                     tablero.imprimirTablero();
                     break;
                 case 3://Reiniciar la simulacion
-                    //inicializa los vehiculos.
+                    tablero.inicializarVehiculos();
                     break;
                 case 4:
                     ejecutar= false;
