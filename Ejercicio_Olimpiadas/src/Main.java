@@ -62,35 +62,30 @@ public class Main {
         while (ejecutar){
 
             int inGame = InputValidation.writeIntInput("Selecciona lo que desees realizar:\n" +
-                    "(1).Iniciar la simulación\n" +
-                    "(2).Pausar la simulación\n" +
-                    "(3).Reinicar la simulación\n" +
-                    "(4).Salir","Por favor introduce un numero entero");
+                    "(1).Iniciarlizar/Resetear simulacion\n" +
+                    "(2).Avanzar la simulación\n" +
+                    "(3).Salir","Por favor introduce un numero entero");
 
             switch (inGame){
                 case 1://comienza la simulacion
                     tablero.inicializarVehiculos();
-                    tablero.imprimirTablero();
-
                     break;
                 case 2: //pausar la simulacion
-                    tablero.imprimirTablero();
+                    tablero.moverVehiculos();
                     break;
-                case 3://Reiniciar la simulacion
-                    tablero.inicializarVehiculos();
-                    break;
-                case 4:
+                case 3:
                     ejecutar= false;
                     break;
                 default:
                     System.out.println("Opción no válida");
             }
+            tablero.imprimirTablero();
 
         }
 
 
 
-        tablero.imprimirTablero();
+        //tablero.imprimirTablero();
         //tablero.imprimirVehiculos();
 
 

@@ -9,7 +9,8 @@ public class Vehiculo {
     private Point destino;
     private Point inicio;
     private ArrayList<Point> camino;
-
+    private int direccion; //0 Arriba y a la derecha. 1 Abajo y a la Izquierda
+    private int prioridad= 0; //0.No tiene 1.baja 2.media 3.Alta
 
     public Vehiculo(int id, Velocidades velocidad, Point inicio, Point destino){
         this.id=id;
@@ -18,6 +19,7 @@ public class Vehiculo {
         this.destino=destino;
         this.inicio= inicio;
         this.camino= new ArrayList<>();
+        this.direccion= 0;
     }
 
 
@@ -48,5 +50,105 @@ public class Vehiculo {
     public void set_Camino(List<Point> camino){
         this.camino= new ArrayList<>(camino);
     }
+
+
+
+    public ArrayList<Point> get_Camino(){
+        return camino;
+    }
+
+
+    public Point get_Point(int pos){
+        Point punto = new Point(inicio);
+
+        if(camino!=null) punto = camino.get(pos);
+        return punto;
+    }
+
+    public int calcularDireccion() {
+        int resX = camino.get(1).x - posicion.x;
+        int resY = camino.get(1).y - posicion.y;
+        int direccion;
+        //es imposible que se de el caso de que los dos sean distintos de 0 ya que solo voy a interpretar paso a paso
+        if (resX != 0) { //si es distinto de 0 es que se ha movido en esta direccion
+            direccion = resX == 1 ? 1: 0;
+        } else{
+            direccion = resY == 1 ? 1 : 0;
+        }
+        return direccion;
+
+    }
+
+    public int get_Direccion(){
+        return direccion;
+    }
+
+    public void set_Direccion(int direccion){
+        this.direccion= direccion;
+    }
+
+    public Velocidades get_Velocidad(){
+        return this.velocidad;
+    }
+
+    public Point get_SiguientePos(){
+        return camino.size()>1 ? camino.get(1) : null;
+    }
+
+    public Point get_PosEnRuta(int pos){
+        return camino.size()>pos ? camino.get(pos) : null;
+    }
+
+    public void avanzarRuta(){
+        if(camino.size()>1) camino.removeFirst();
+    }
+
+    public void set_Prioridad(int p){
+        this.prioridad= p;
+    }
+
+    public int get_Prioridad(){
+        return prioridad;
+    }
+    public int calcularPrioridad(){
+        int prio = 0;
+
+        if(camino.size()<3) prio = 1; //esto quiere decir que el coche termina en el cruce
+        else if(camino.size()>=3){
+            Point pos1, pos2;
+            pos1 = camino.get(0);
+            pos2 = camino.get(2);
+            int disX= pos2.x - pos1.x;
+            int disY = pos2.y - pos1.y;
+            if(disX==0 || disY==0) prio= 3; //prio alta ya que no cambia de direccion
+            else prio= 2; //prio media ya que cambia de direccion
+        }
+        return prio;
+    }
+
+
+    /*
+
+
+    private int calcularDireccion(Vehiculo v){
+        Point inicio = v.get_Inicio();
+        Point siguiente= v.get_Point(1);
+        int resX= siguiente.x-inicio.x;
+        int resY= siguiente.y-inicio.y;
+        int direccion ;
+        //es imposible que se de el caso de que los dos sean distintos de 0 ya que solo voy a interpretar paso a paso
+        if(resX!=0){ //si es distinto de 0 es que se ha movido en esta direccion
+            direccion = resX==1 ? 0 : 1; //si vale 1 es que va a la derecha si no es que va a la izquierda
+        }
+        else {
+            direccion = resY==1 ? 0 : 1; //si vale 1 es que va arriba si no es que va abajo
+        }
+        return direccion;
+    }
+
+
+     */
+
+
     //cada vehiculo evaluara si puede moverse
 }

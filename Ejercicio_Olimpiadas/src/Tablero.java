@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.PriorityQueue;
+import java.util.Comparator;
+
 
 public class Tablero {
 
@@ -14,6 +17,7 @@ public class Tablero {
 
 
     private ArrayList<Vehiculo> vehiculos = new ArrayList<>(); //guarda los vehiculos que tiene
+    private ArrayList<Celda> celdaConConflico = new ArrayList<>();
 
    //Deberia de crear un ArryList de inicios y finales aqui
     public Tablero(int tamanioTablero) {
@@ -117,8 +121,9 @@ public class Tablero {
                         } else {
                             desindexacion( tipoCarretera, fijo, variable);
                         }
-                        carreteras.remove(n_carretera);
+
                     }
+                    carreteras.remove(n_carretera);
                 }
 
             }
@@ -291,15 +296,22 @@ public class Tablero {
             Point actual= v.get_Posicion();
             Point destino = v.get_Destino();
 
+            int pos;
             if(actual!=inicio){
-                quitarVehiculo(actual.x,actual.y);
+                pos= v.get_Direccion();
+                quitarVehiculo(actual.x,actual.y, pos);
                 v.set_Posicion(inicio);
             }
 
-            agregarVehiculo(inicio.x,inicio.y,v);
+            Factoria.generarCamino(this,v);
+
+            pos= v.calcularDireccion(); //vuelvo a calcularlo porque la lista ha cambiado
+            v.set_Direccion(pos);
+
+            agregarVehiculo(inicio.x,inicio.y,v, pos);
             agregarDestino(destino.x,destino.y,v);
 
-            Factoria.generarCamino(this,v);
+
         }
     }
 
@@ -309,6 +321,113 @@ public class Tablero {
             matrixTablero[fil][col].setId_Destino(vehiculo);
             matrixTablero[fil][col].set_EsDestino(true);
         }
+    }
+
+
+
+    public void moverVehiculos(){ //muevo los vehiculos y detecto conflictos
+        for(Vehiculo v: vehiculos){
+
+            //coger vehiculo
+
+            //coger actual posicion del vehiculo
+            Point actualPos = v.get_Posicion();
+            Point finalPos = v.get_Destino();
+            if(actualPos!= finalPos){
+
+
+                //coger velocidad del vehiculo y hacer en bucle for o while la cantidad de movimientos
+                int velocidad = v.get_Velocidad().getVelocidad();
+
+                //mirar la posicion a la que se quiere mover
+                for(int i = 0; i<velocidad;i++){
+                    actualPos = v.get_Posicion();
+                    int actualX= actualPos.x;
+                    int actualY= actualPos.y;
+                    Point nuevaPos= v.get_SiguientePos();
+                    if (nuevaPos!=null){//en el caso de que un vehiculo se mueva dos casillas y solo llegue en una
+                        int nextX= nuevaPos.x;
+                        int nextY= nuevaPos.y;
+                        Celda celdaAux = matrixTablero[nextX][nextY];
+                        int direccion = v.calcularDireccion();
+                        if(celdaAux.get_Carretera() && !celdaAux.get_Cruce()){
+                            if(celdaAux.get_Vehiculo(direccion)== null){ //es que esta vacia
+                                quitarVehiculo(actualX,actualY,v.get_Direccion()); //quito vehiculo de vieja pos
+                                agregarVehiculo(nextX,nextY,v,direccion); //pongo vehiculo en nueva pos
+                                v.set_Posicion(nuevaPos); //actualizo pos de vehiculo
+                                v.set_Direccion(direccion);
+                                v.avanzarRuta(); //borro un paso de ruta
+                            }
+                        }//en caso de que sea ruta de forma normal lo gestiono aqui
+                        else if(celdaAux.get_Cruce()){
+
+                            if(!celdaConConflico.contains(celdaAux)) celdaConConflico.add(celdaAux);
+                            celdaAux.add_Conflicto(v);
+                        }
+                    }
+                }
+            }//si no es que ya ha llegado
+        }
+
+        if(!celdaConConflico.isEmpty()){
+            resolverConflicto();
+        }
+        // si se ha generado conflicto lo gestiono despues para ordenar la cola de conflictos.
+    }
+
+    private void resolverConflicto()
+    {
+        for(Celda c: celdaConConflico){
+            ArrayList<Vehiculo> conflictos = c.get_Conflictos();
+            Vehiculo vAux ;
+            if (conflictos.size()==1){
+                //muevo el vehiculo
+                 vAux = conflictos.getFirst();
+
+
+            }
+            else{
+
+                ArrayList<Vehiculo> conflictosAux = new ArrayList<>();
+                PriorityQueue<Vehiculo> colaPrioridad = new PriorityQueue<>(Comparator.comparingInt(Vehiculo::get_Prioridad).reversed());
+                for(Vehiculo v: conflictos){
+                    int prioridad = v.calcularPrioridad();
+                    v.set_Prioridad(prioridad);
+                    colaPrioridad.add(v);
+                }
+                conflictosAux = new ArrayList<>(colaPrioridad);
+
+                vAux = conflictosAux.getFirst(); //con esto solo ejecuto al primero, los demas proceden a esperar a la siguiente iteracion
+
+              /*  ArrayList<Vehiculo> conflictosAux= new ArrayList<>();
+
+                for(Vehiculo v: conflictos){
+                    //calculo la prioridad
+                    int prioridad = v.calcularPrioridad();
+                    v.set_Prioridad(prioridad);
+                    if(prioridad==3)conflictosAux.add(v);
+                    else if(prioridad==2)conflictosAux.add(v);
+                    else conflictosAux.addLast(v);
+
+                }*/
+
+
+                //en caso que haya mas conflictos lo soluciono aqui
+            }
+            Point actualPos = vAux.get_Posicion();
+            Point nuevaPos= vAux.get_SiguientePos();
+            int nextX= nuevaPos.x;
+            int nextY= nuevaPos.y;
+            quitarVehiculo(actualPos.x, actualPos.y, vAux.get_Direccion()); //quito vehiculo de vieja pos
+            agregarVehiculo(nextX,nextY,vAux,0); //pongo vehiculo en nueva pos
+            vAux.set_Posicion(nuevaPos); //actualizo pos de vehiculo
+            vAux.set_Direccion(0);
+            vAux.avanzarRuta(); //borro un paso de ruta
+
+            //limpio el array para volver evaluarlo mas adelante
+            c.limpiarConflictos();
+        }
+        celdaConConflico.clear();
     }
 
 
@@ -325,14 +444,14 @@ public class Tablero {
         }
     }
 
-    public void agregarVehiculo(int fil, int col, Vehiculo vehiculo){
+    public void agregarVehiculo(int fil, int col, Vehiculo vehiculo, int pos){
         if(fil>=0 && fil<tamanioTablero && col>=0 && col<tamanioTablero){
-            matrixTablero[fil][col].set_Vehiculo(vehiculo);
+            matrixTablero[fil][col].set_Vehiculo(vehiculo, pos);
         }
     }
-    public void quitarVehiculo(int fil, int col){
+    public void quitarVehiculo(int fil, int col, int pos){
         if(fil>=0 && fil<tamanioTablero && col>=0 && col<tamanioTablero){
-            if(matrixTablero[fil][col].get_Vehiculo()!=null) matrixTablero[fil][col].set_Vehiculo(null);
+            if(matrixTablero[fil][col].get_Vehiculo(pos)!=null) matrixTablero[fil][col].set_Vehiculo(null, pos);
         }
     }
 
