@@ -66,15 +66,20 @@ public class Vehiculo {
     }
 
     public int calcularDireccion() {
-        int resX = camino.get(1).x - posicion.x;
-        int resY = camino.get(1).y - posicion.y;
         int direccion;
-        //es imposible que se de el caso de que los dos sean distintos de 0 ya que solo voy a interpretar paso a paso
-        if (resX != 0) { //si es distinto de 0 es que se ha movido en esta direccion
-            direccion = resX == 1 ? 1: 0;
-        } else{
-            direccion = resY == 1 ? 1 : 0;
+        if(camino.size()>0){
+            int resX = camino.get(1).x - posicion.x;
+            int resY = camino.get(1).y - posicion.y;
+
+            //es imposible que se de el caso de que los dos sean distintos de 0 ya que solo voy a interpretar paso a paso
+            if (resX != 0) { //si es distinto de 0 es que se ha movido en esta direccion
+                direccion = resX == 1 ? 1: 0;
+            } else{
+                direccion = resY == 1 ? 1 : 0;
+            }
         }
+        else direccion = 0; // en caso de que se produzca un error lo seteo a 0
+
         return direccion;
 
     }

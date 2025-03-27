@@ -247,10 +247,55 @@ public class Tablero {
 
     }
 */
+    public void imprimirTablero2(){
+
+
+        for(int i= 0; i<tamanioTablero+2;i++){
+
+            System.out.print(aniadirCadenaConEspacios("-"));
+        }
+        System.out.println();
+        for(int i =0; i<tamanioTablero;i++){
+            System.out.print(aniadirCadenaConEspacios("|")); //borde derecho
+            for(int j=0; j<tamanioTablero;j++){
+
+                if(matrixTablero[i][j].get_TipoCarretera()== 'h'){
+                    if(matrixTablero[i][j].toString()!="#" && matrixTablero[i][j].toString()!="X") System.out.print(Colores.GREEN+aniadirCadenaConEspacios(""+matrixTablero[i][j])+Colores.RESET);
+                    else System.out.print(Colores.BLUE+aniadirCadenaConEspacios(""+matrixTablero[i][j])+Colores.RESET);
+                }
+                else if(matrixTablero[i][j].get_TipoCarretera()== 'v') {
+                    if(matrixTablero[i][j].toString()!="#" && matrixTablero[i][j].toString()!="X") System.out.print(Colores.GREEN+aniadirCadenaConEspacios(""+matrixTablero[i][j])+Colores.RESET);
+                    else System.out.print(Colores.YELLOW+aniadirCadenaConEspacios(""+matrixTablero[i][j])+Colores.RESET);
+                }
+                else  System.out.print(aniadirCadenaConEspacios(""+matrixTablero[i][j]));
+            }
+            System.out.print(aniadirCadenaConEspacios("|")); //borde izquierdo
+            System.out.println();
+        }
+
+        for(int j= 0;j<tamanioTablero+2; j++)
+        {
+            System.out.print(aniadirCadenaConEspacios("-"));
+        }
+        System.out.println();
+
+
+    }
+
+    private String aniadirCadenaConEspacios(String cadenaImprimir){
+        String caracteres= ""+(carreteras.size());
+        int numMaxCaracteres= caracteres.length()+2;//+2 dos por los [ ]
+        int aniadirEspacios= numMaxCaracteres-cadenaImprimir.length();
+        for(int e=0; e<aniadirEspacios;e++){
+            cadenaImprimir+=" ";
+        }
+        return cadenaImprimir;
+    }
 
 
     public void imprimirTablero(){
-
+        String caracteres= ""+carreteras.size();
+        int numCaracteres = caracteres.length();
 
         for(int j= 0; j<tamanioTablero+2; j++){
             System.out.print("-\t");
@@ -260,7 +305,6 @@ public class Tablero {
         for(int i =0; i<tamanioTablero;i++){
             System.out.print("|\t"); //borde derecho
             for(int j=0; j<tamanioTablero;j++){
-
 
                 if(matrixTablero[i][j].get_TipoCarretera()== 'h') System.out.print(Colores.BLUE+matrixTablero[i][j]+Colores.RESET+"\t");
                 else if(matrixTablero[i][j].get_TipoCarretera()== 'v') System.out.print(Colores.YELLOW+matrixTablero[i][j]+Colores.RESET+"\t");

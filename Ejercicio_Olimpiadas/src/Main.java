@@ -55,7 +55,7 @@ public class Main {
             opc= InputValidation.writeIntInput("Introduce un numero de vehiculos a simular, no puede ser mayor al numero de carreteras: ","Por favor introduce un numero");
         }while(opc<=0 || opc>n_carreteras);
 
-        tablero.imprimirTablero();
+        tablero.imprimirTablero2();
         System.out.println("Tablero con carreteras comprobadas");
         Factoria.generarVehiculosEnTablero(tablero,opc);
 
@@ -79,7 +79,7 @@ public class Main {
                 default:
                     System.out.println("Opción no válida");
             }
-            tablero.imprimirTablero();
+            tablero.imprimirTablero2();
 
         }
 
