@@ -19,6 +19,8 @@ public class Tablero {
     private ArrayList<Vehiculo> vehiculos = new ArrayList<>(); //guarda los vehiculos que tiene
     private ArrayList<Celda> celdaConConflico = new ArrayList<>();
 
+    private int intentosGeneracion= 0;
+
    //Deberia de crear un ArryList de inicios y finales aqui
     public Tablero(int tamanioTablero) {
         this.tamanioTablero = tamanioTablero;
@@ -37,13 +39,14 @@ public class Tablero {
     }
 
 
-    public void generarCarreteras(int numCarreteras) {
+    public boolean generarCarreteras(int numCarreteras, String errorMensaje) {
         int numVerticales = numCarreteras / 2;
         int numHorizontales = numCarreteras / 2;
         int carreterasGeneradasVerticales = 0;
         int carreterasGeneradasHorizontales = 0;
         ArrayList<Point> puntosCarreteraVertical = new ArrayList<>();
         ArrayList<Point> puntosCarreteraHorizontal = new ArrayList<>();
+        boolean demasiadasCarreteras= false;
         //ArrayList<Point> iniciosYFinalesCarreteras = new ArrayList<>();
 
 
@@ -52,10 +55,18 @@ public class Tablero {
             int yInicial= rand.nextInt(tamanioTablero - 2) + 1;
             if (yInicial == tamanioTablero - 1) yInicial--;
             puntosCarreteraHorizontal.add(new Point(xInicial,yInicial));
-        }while(generarCarreterasRecursivamente(puntosCarreteraHorizontal,iniciosYFinalesCarreteras,false,0,numCarreteras));
 
+        }while(generarCarreterasRecursivamente(puntosCarreteraHorizontal,iniciosYFinalesCarreteras,false,0,numCarreteras) && intentosGeneracion<9999);
 
-
+        if(intentosGeneracion>=9999){ //reseteo
+            System.out.println(errorMensaje);
+            demasiadasCarreteras = true;
+            iniciosYFinalesCarreteras.clear();
+            carreteras.clear();
+            intentosGeneracion= 0;
+            inicializarCeldas();
+        }
+        return demasiadasCarreteras;
         //llamar a generar carreteras aqui
 
     }
@@ -73,11 +84,11 @@ public class Tablero {
         inicio = 0;
         fin = 0;
 
-
+        intentosGeneracion++;
         int contadorPuntos= 0;
         int maxPuntos=puntosCarreteraBase.size();
 
-        if( n_carretera>=max_carreteras){
+        if( n_carretera>=max_carreteras || intentosGeneracion>=9999){
             noConseguido= false;
         }
         else {
@@ -284,7 +295,7 @@ public class Tablero {
 
     private String aniadirCadenaConEspacios(String cadenaImprimir){
         String caracteres= ""+(carreteras.size());
-        int numMaxCaracteres= caracteres.length()+2;//+2 dos por los [ ]
+        int numMaxCaracteres= caracteres.length()+4;//+2 dos por los [ ]
         int aniadirEspacios= numMaxCaracteres-cadenaImprimir.length();
         for(int e=0; e<aniadirEspacios;e++){
             cadenaImprimir+=" ";

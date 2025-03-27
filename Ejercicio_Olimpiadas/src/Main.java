@@ -39,14 +39,16 @@ public class Main {
         Tablero tablero= Factoria.generarTablero(opc);
         System.out.println("Tablero creado vacio");
 
-        do {
-            opc= InputValidation.writeIntInput("Introducce un numero que sea par y positivo para el numero de carreteras: ","Por favor introduce un numero");
 
-        }while (opc<=0 || opc%2!=0); //con esto ya siempre es par
-        n_carreteras= opc;//una vez que genero una correcta lo guardo
+       do {
 
-        //test de generacion de carreteras
-        tablero.generarCarreteras(n_carreteras);
+           do {
+               opc = InputValidation.writeIntInput("Introducce un numero que sea par y positivo para el numero de carreteras: ", "Por favor introduce un numero");
+
+           } while (opc <= 0 || opc % 2 != 0); //con esto ya siempre es par
+           n_carreteras = opc;//una vez que genero una correcta lo guardo
+           //test de generacion de carreteras
+       }while(tablero.generarCarreteras(n_carreteras,"Has introducido demasiadas carreteras, por favor itnroduce un numero menos elevado de carreteras" )); //si devuelve true es que se ha introdudico un numero muy grandre de carreteras
 
         //tablero.imprimirIniciosyFinales();
         //tablero.imprimirCarreteras();
@@ -79,7 +81,7 @@ public class Main {
                 default:
                     System.out.println("Opción no válida");
             }
-            tablero.imprimirTablero2();
+            if(ejecutar)tablero.imprimirTablero2();
 
         }
 
