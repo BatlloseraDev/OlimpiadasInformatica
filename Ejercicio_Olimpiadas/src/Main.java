@@ -1,21 +1,18 @@
 public class Main {
     public static void main(String[] args) {
 
-
         //hacer menu de opciones
         boolean ejecutar = true;
         System.out.println("Bienvenido al programa de la simulación");
 
-        while(ejecutar)
-        {
-            int opc = InputValidation.writeIntInput("Selecciona lo que desees realizar:\n(1).Iniciar nueva simulación\n(2).Salir","Por favor introduce un numero entero");
-            switch(opc)
-            {
+        while (ejecutar) {
+            int opc = InputValidation.writeIntInput("Selecciona lo que desees realizar:\n(1).Iniciar nueva simulación\n(2).Salir", "Por favor introduce un numero entero");
+            switch (opc) {
                 case 1:
                     game();
                     break;
                 case 2:
-                    ejecutar= false;
+                    ejecutar = false;
                     break;
                 default:
                     System.out.println("Opción no válida");
@@ -25,50 +22,50 @@ public class Main {
         System.out.println("Gracias por usar el programa");
     }
 
-    public static void game(){
+    public static void game() {
 
         int opc;
         int n_carreteras;
-        boolean ejecutar=true;
+        boolean ejecutar = true;
 
         do {
-            opc = InputValidation.writeIntInput("Introduce el tamaño del tablero: \n(1).Pequeño [20x20] \n(2).Mediano [30x30] \n(3).Grande [40x40] ","Por favor introduce un numero entero" );
-        } while(opc < 1 || opc > 3);
-        opc = (opc+1)*10; //me ahorro el crear el switch o una cadena de if
+            opc = InputValidation.writeIntInput("Introduce el tamaño del tablero: \n(1).Pequeño [20x20] \n(2).Mediano [30x30] \n(3).Grande [40x40] ", "Por favor introduce un numero entero");
+        } while (opc < 1 || opc > 3);
+        opc = (opc + 1) * 10; //me ahorro el crear el switch o una cadena de if
 
-        Tablero tablero= Factoria.generarTablero(opc);
+        Tablero tablero = Factoria.generarTablero(opc);
         System.out.println("Tablero creado vacio");
 
 
-       do {
+        do {
 
-           do {
-               opc = InputValidation.writeIntInput("Introducce un numero que sea par y positivo para el numero de carreteras: ", "Por favor introduce un numero");
+            do {
+                opc = InputValidation.writeIntInput("Introducce un numero que sea par y positivo para el numero de carreteras: ", "Por favor introduce un numero");
 
-           } while (opc <= 0 || opc % 2 != 0); //con esto ya siempre es par
-           n_carreteras = opc;//una vez que genero una correcta lo guardo
-           //test de generacion de carreteras
-       }while(tablero.generarCarreteras(n_carreteras,"Has introducido demasiadas carreteras, por favor itnroduce un numero menos elevado de carreteras" )); //si devuelve true es que se ha introdudico un numero muy grandre de carreteras
+            } while (opc <= 0 || opc % 2 != 0); //con esto ya siempre es par
+            n_carreteras = opc;//una vez que genero una correcta lo guardo
 
-        //tablero.imprimirIniciosyFinales();
-        //tablero.imprimirCarreteras();
+            //generacion de carreteras
+        } while (tablero.generarCarreteras(n_carreteras, "Has introducido demasiadas carreteras, por favor itnroduce un numero menos elevado de carreteras")); //si devuelve true es que se ha introdudico un numero muy grandre de carreteras
+
+
         //pedir vehiculos
-        do{
-            opc= InputValidation.writeIntInput("Introduce un numero de vehiculos a simular, no puede ser mayor al numero de carreteras: ","Por favor introduce un numero");
-        }while(opc<=0 || opc>n_carreteras);
+        do {
+            opc = InputValidation.writeIntInput("Introduce un numero de vehiculos a simular, no puede ser mayor al numero de carreteras: ", "Por favor introduce un numero");
+        } while (opc <= 0 || opc > n_carreteras);
 
         tablero.imprimirTablero2();
         System.out.println("Tablero con carreteras comprobadas");
-        Factoria.generarVehiculosEnTablero(tablero,opc);
+        Factoria.generarVehiculosEnTablero(tablero, opc);
 
-        while (ejecutar){
+        while (ejecutar) {
 
             int inGame = InputValidation.writeIntInput("Selecciona lo que desees realizar:\n" +
                     "(1).Iniciarlizar/Resetear simulacion\n" +
                     "(2).Avanzar la simulación\n" +
-                    "(3).Salir","Por favor introduce un numero entero");
+                    "(3).Salir", "Por favor introduce un numero entero");
 
-            switch (inGame){
+            switch (inGame) {
                 case 1://comienza la simulacion
                     tablero.inicializarVehiculos();
                     break;
@@ -76,20 +73,14 @@ public class Main {
                     tablero.moverVehiculos();
                     break;
                 case 3:
-                    ejecutar= false;
+                    ejecutar = false;
                     break;
                 default:
                     System.out.println("Opción no válida");
             }
-            if(ejecutar)tablero.imprimirTablero2();
+            if (ejecutar) tablero.imprimirTablero2();
 
         }
-
-
-
-        //tablero.imprimirTablero();
-        //tablero.imprimirVehiculos();
-
 
     }
 

@@ -48,7 +48,7 @@ class PathFinder { //Como el juego de rol
                     visited[newX][newY][current.isHorizontal ? 1 : 0] = true;
                     queue.add(new Node(newX, newY, current.dist + 1, current.isHorizontal, current.path));
 
-                    if(grid[newX][newY].get_Cruce()){
+                    if (grid[newX][newY].get_Cruce()) {
                         queue.add(new Node(newX, newY, current.dist + 1, !current.isHorizontal, current.path));
                     }
                 }

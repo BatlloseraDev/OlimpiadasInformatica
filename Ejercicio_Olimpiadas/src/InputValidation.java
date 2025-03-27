@@ -2,23 +2,22 @@ import java.util.Scanner;
 
 public class InputValidation {
 
-    public static int writeIntInput(String message, String errorMessage){ //me dio el venazo de hacer esto en ingles
+    public static int writeIntInput(String message, String errorMessage) {
 
         Scanner scanner = new Scanner(System.in);
         Integer value;
 
-        do{
+        do {
             System.out.println(message);
-            value= validateIntInput(scanner.nextLine());
-            if(value==null){
+            value = validateIntInput(scanner.nextLine());
+            if (value == null) {
                 System.out.println(errorMessage);
             }
 
-        }while(value==null);
+        } while (value == null);
 
         return value;
     }
-
 
     public static Integer validateIntInput(String input) {
 
@@ -28,7 +27,7 @@ public class InputValidation {
         } catch (NumberFormatException e) {
             valueToReturn = null;
         }
-       return valueToReturn;
+        return valueToReturn;
     }
 
 }

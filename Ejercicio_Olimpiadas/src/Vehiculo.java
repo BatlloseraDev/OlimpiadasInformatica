@@ -52,19 +52,6 @@ public class Vehiculo {
     }
 
 
-
-    public ArrayList<Point> get_Camino(){
-        return camino;
-    }
-
-
-    public Point get_Point(int pos){
-        Point punto = new Point(inicio);
-
-        if(camino!=null) punto = camino.get(pos);
-        return punto;
-    }
-
     public int calcularDireccion() {
         int direccion;
         if(camino.size()>0){
@@ -132,28 +119,4 @@ public class Vehiculo {
     }
 
 
-    /*
-
-
-    private int calcularDireccion(Vehiculo v){
-        Point inicio = v.get_Inicio();
-        Point siguiente= v.get_Point(1);
-        int resX= siguiente.x-inicio.x;
-        int resY= siguiente.y-inicio.y;
-        int direccion ;
-        //es imposible que se de el caso de que los dos sean distintos de 0 ya que solo voy a interpretar paso a paso
-        if(resX!=0){ //si es distinto de 0 es que se ha movido en esta direccion
-            direccion = resX==1 ? 0 : 1; //si vale 1 es que va a la derecha si no es que va a la izquierda
-        }
-        else {
-            direccion = resY==1 ? 0 : 1; //si vale 1 es que va arriba si no es que va abajo
-        }
-        return direccion;
-    }
-
-
-     */
-
-
-    //cada vehiculo evaluara si puede moverse
 }
