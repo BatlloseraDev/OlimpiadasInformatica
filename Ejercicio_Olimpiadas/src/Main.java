@@ -57,7 +57,7 @@ public class Main {
         tablero.imprimirTablero2();
         System.out.println("Tablero con carreteras comprobadas");
         Factoria.generarVehiculosEnTablero(tablero, opc);
-
+        boolean inicializada= false;
         while (ejecutar) {
 
             int inGame = InputValidation.writeIntInput("Selecciona lo que desees realizar:\n" +
@@ -68,9 +68,11 @@ public class Main {
             switch (inGame) {
                 case 1://comienza la simulacion
                     tablero.inicializarVehiculos();
+                    inicializada= true;
                     break;
                 case 2: //pausar la simulacion
-                    tablero.moverVehiculos();
+                    if (inicializada) tablero.moverVehiculos();
+                    else System.out.println("Porfavor, inicializa la simulación para poder avanzar");
                     break;
                 case 3:
                     ejecutar = false;
