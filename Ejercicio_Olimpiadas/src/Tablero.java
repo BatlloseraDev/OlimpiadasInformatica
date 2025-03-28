@@ -189,7 +189,7 @@ public class Tablero {
         return valor;
     }
 
-    public void imprimirTablero2() {
+    public void imprimirTablero() {
 
 
         for (int i = 0; i < tamanioTablero + 2; i++) {
@@ -280,7 +280,6 @@ public class Tablero {
         for (Vehiculo v : vehiculos) {
 
             //coger vehiculo
-
             //coger actual posicion del vehiculo
             Point actualPos = v.get_Posicion();
             Point finalPos = v.get_Destino();
@@ -366,8 +365,6 @@ public class Tablero {
         celdaConConflico.clear();
     }
 
-
-    //no lo utilizo
 
     public void agregarVehiculo(int fil, int col, Vehiculo vehiculo, int pos) {
         if (fil >= 0 && fil < tamanioTablero && col >= 0 && col < tamanioTablero) {

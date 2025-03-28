@@ -27,7 +27,7 @@ public class Factoria {
 
     public static void generarVehiculosEnTablero(Tablero tablero, int n_vehiculos) {
         ArrayList<ArrayList<Point>> carreterasInicios = new ArrayList<>(tablero.getCarreteras());
-        ArrayList<ArrayList<Point>> carreterasFinales = new ArrayList<>(tablero.getCarreteras());
+
         ArrayList<Point> puntosFinales = new ArrayList<>();
         for (ArrayList<Point> carretera : carreterasInicios) {
             puntosFinales.add(carretera.getFirst());

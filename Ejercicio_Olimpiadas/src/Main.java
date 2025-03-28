@@ -34,7 +34,6 @@ public class Main {
         opc = (opc + 1) * 10; //me ahorro el crear el switch o una cadena de if
 
         Tablero tablero = Factoria.generarTablero(opc);
-        System.out.println("Tablero creado vacio");
 
 
         do {
@@ -54,7 +53,7 @@ public class Main {
             opc = InputValidation.writeIntInput("Introduce un numero de vehiculos a simular, no puede ser mayor al numero de carreteras: ", "Por favor introduce un numero");
         } while (opc <= 0 || opc > n_carreteras);
 
-        tablero.imprimirTablero2();
+        tablero.imprimirTablero();
         System.out.println("Tablero con carreteras comprobadas");
         Factoria.generarVehiculosEnTablero(tablero, opc);
         boolean inicializada= false;
@@ -80,7 +79,7 @@ public class Main {
                 default:
                     System.out.println("Opción no válida");
             }
-            if (ejecutar) tablero.imprimirTablero2();
+            if (ejecutar) tablero.imprimirTablero();
 
         }
 
